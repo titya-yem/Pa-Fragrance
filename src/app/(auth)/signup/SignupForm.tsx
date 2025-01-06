@@ -12,7 +12,7 @@ const SignupForm = () => {
 
   const onSignup = async (data: SignupFormData) => {
     try {
-      await axios.post("api/signup", data);
+      await axios.post("api/auth/signup", data);
       router.push("/login");
       setButtonDisabled(true);
     } catch (error) {

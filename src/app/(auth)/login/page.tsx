@@ -1,6 +1,7 @@
 import Image from "next/image";
 import PaWord from "../../../../public/Pa Word.png";
 import LoginForm from "@/app/(auth)/login/LoginForm";
+import Link from "next/link";
 
 const login = () => {
   return (
@@ -13,6 +14,12 @@ const login = () => {
       />
       <h1 className="text-center mb-8 text-2xl italic font-medium">Login</h1>
       <LoginForm />
+      <p className="text-center mt-4 text-[#fed42d] font-medium">
+        Don&apos;t have an account?{" "}
+        <Link href="/signup" className=" hover:underline">
+          Sign up
+        </Link>
+      </p>
     </main>
   );
 };

@@ -18,7 +18,6 @@ export async function POST(req: NextRequest) {
     }
 
     const { email, password } = validation.data;
-
     // Check if user exists
     const user = await prisma.user.findUnique({
       where: { email },
@@ -42,11 +41,37 @@ export async function POST(req: NextRequest) {
     }
 
     // Create JWT token
-    const token = sign({ id: user.id }, process.env.JWT_SECRET!, {
-      expiresIn: "4h",
+    const token = sign(
+      { id: user.id, role: user.role, email: user.email },
+      process.env.JWT_SECRET!,
+      {
+        expiresIn: "1h",
+      }
+    );
+
+    // Create response object
+    const response = NextResponse.json(
+      {
+        message: "Login Success",
+        user: {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          role: user.role,
+        },
+      },
+      { status: 200 }
+    );
+
+    // Set cookie on response
+    response.cookies.set("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 14400, // 4 hours
+      path: "/",
     });
 
-    return NextResponse.json({ success: true, token }, { status: 200 });
+    return response;
   } catch (error) {
     console.error("Login error: ", error);
     return NextResponse.json(

@@ -1,23 +1,33 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import { useForm } from "react-hook-form";
+import { signIn } from "next-auth/react";
 import { LoginFormData } from "@/types";
+
+// This page is copy from ChatGPT
 
 const LoginForm = () => {
   const router = useRouter();
   const { register, handleSubmit } = useForm<LoginFormData>();
   const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const onLogin = async (data: LoginFormData) => {
-    try {
-      await axios.post("/api/login", data);
-      setButtonDisabled(true);
-      router.push("/");
-    } catch (error) {
+    setButtonDisabled(true);
+    setErrorMessage("");
+
+    const response = await signIn("credentials", {
+      email: data.email,
+      password: data.password,
+      redirect: false,
+    });
+
+    if (response?.error) {
+      setErrorMessage(response.error);
       setButtonDisabled(false);
-      console.log("Login failed", error);
+    } else {
+      router.push("/");
     }
   };
 
@@ -53,10 +63,13 @@ const LoginForm = () => {
             {...register("password", { required: "Password is required" })}
           />
         </div>
+        {errorMessage && (
+          <div className="text-red-500 text-sm mt-2">{errorMessage}</div>
+        )}
         <button
           disabled={buttonDisabled}
           type="submit"
-          className="cta-two rounded-sm duration-200 w-11/12 mt-6 text-center flex items-center justify-center py-2"
+          className="cta-two rounded-sm duration-200 w-11/12 mt-4 text-center flex items-center justify-center py-2"
         >
           Login
         </button>

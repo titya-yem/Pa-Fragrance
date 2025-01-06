@@ -18,10 +18,6 @@ export const NavBarLists: NavBarList[] = [
     name: "Login",
     href: "/login",
   },
-  {
-    name: "Sign up",
-    href: "/signup",
-  },
 ];
 
 export const FooterInfor: FooterInfo[] = [

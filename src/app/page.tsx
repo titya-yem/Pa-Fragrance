@@ -4,13 +4,8 @@ import Footer from "@/components/root/Footer";
 import AboutUs from "@/components/root/AboutUs";
 import Product from "@/components/root/Product";
 import Founder from "@/components/root/Founder";
-import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]/route";
 
-export default async function Home() {
-  const session = await getServerSession(authOptions);
-  console.log(session);
-
+export default function Home() {
   return (
     <>
       <main className="container md:flex justify-between bg-black">
