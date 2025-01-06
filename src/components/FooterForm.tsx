@@ -40,7 +40,7 @@ const FooterForm = () => {
         />
 
         <textarea
-          className="p-3 rounded-md text-black bg-white max-h-36"
+          className="p-3 rounded-md text-black bg-white md:max-h-36"
           placeholder="Message Us"
           {...register("message", { required: "Message is required" })}
         ></textarea>
