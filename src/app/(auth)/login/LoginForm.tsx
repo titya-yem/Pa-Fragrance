@@ -37,8 +37,8 @@ const LoginForm = () => {
         onSubmit={handleSubmit(onLogin)}
         className="flex flex-col justify-between items-center gap-4 *:flex *:items-center *:gap-4"
       >
-        <div>
-          <label htmlFor="email" className="text-lg mr-8">
+        <div className="flex flex-col md:flex-row">
+          <label htmlFor="email" className="text-lg md:mr-8">
             Email
           </label>
           <input
@@ -46,11 +46,11 @@ const LoginForm = () => {
             id="email"
             placeholder="Email"
             required
-            className="bg-[#fed42d] rounded-sm text-black w-56 px-2 py-3 ml-2 focus:outline-none placeholder:text-black"
+            className="bg-[#fed42d] rounded-sm text-black w-64 md:w-56 px-2 py-3 ml-2 focus:outline-none placeholder:text-black"
             {...register("email", { required: "Email is required" })}
           />
         </div>
-        <div>
+        <div className="flex flex-col md:flex-row">
           <label htmlFor="password" className="text-lg">
             Password
           </label>
@@ -59,7 +59,7 @@ const LoginForm = () => {
             id="password"
             placeholder="Password"
             required
-            className="bg-[#fed42d] rounded-sm text-black w-56 px-2 py-3 ml-2 focus:outline-none placeholder:text-black"
+            className="bg-[#fed42d] rounded-sm text-black w-64 md:w-56 px-2 py-3 ml-2 focus:outline-none placeholder:text-black"
             {...register("password", { required: "Password is required" })}
           />
         </div>
@@ -69,7 +69,7 @@ const LoginForm = () => {
         <button
           disabled={buttonDisabled}
           type="submit"
-          className="cta-two rounded-sm duration-200 w-11/12 mt-4 text-center flex items-center justify-center py-2"
+          className="cta-two rounded-sm duration-200 w-full md:w-11/12 mt-4 text-center flex items-center justify-center py-2 ml-2 md:ml-0"
         >
           Login
         </button>

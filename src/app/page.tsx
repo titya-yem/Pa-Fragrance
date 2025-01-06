@@ -21,7 +21,7 @@ export default function Home() {
           </p>
           <Link
             href="/shop"
-            className="cta px-32 md:px-20 lg:px-28 xl:px-40 py-4 lg:py-5 lg:text-lg duration-200"
+            className="cta px-24 md:px-20 lg:px-28 xl:px-40 py-4 lg:py-5 lg:text-lg duration-200"
           >
             Shop now
           </Link>

@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const login = () => {
   return (
-    <main className="container border border-[#fed42d] w-[400px] py-4 rounded-md mx-auto mb-28">
+    <main className="container border border-[#fed42d] w-[290px] md:w-[400px] py-4 rounded-md mx-auto mb-28">
       <Image
         className="mx-auto lg:w-24 mb-2"
         src={PaWord}

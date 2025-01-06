@@ -40,15 +40,17 @@ const Navbar = () => {
 
         {/* Navigation Links */}
         <ul
-          className={`fixed top-0 right-0 h-full w-1/3 bg-black md:bg-transparent flex flex-col items-center justify-center gap-6 transition-transform border-l border-[#ffd500] duration-300 z-20 md:static md:flex md:flex-row md:h-auto md:w-auto md:gap-8 ${
-            isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+          className={`fixed top-0 right-0 h-full w-2/5 bg-black flex flex-col items-center justify-center gap-6 transition-transform border-l border-[#ffd500] sm:border-none duration-300 z-20 md:static md:flex md:flex-row md:h-auto md:w-auto ${
+            isMobileMenuOpen
+              ? "translate-x-0"
+              : "translate-x-full md:translate-x-0"
           }`}
         >
           {NavBarLists.map((list) => (
             <li key={list.name} className="flex items-center">
               <Link
                 href={list.href}
-                className="text-white hover:text-[#ffd500] duration-200 text-lg md:text-base"
+                className="text-white hover:text-[#ffd500] duration-200 text-lg"
                 onClick={() => setIsMobileMenuOpen(false)} // Close menu on link click
               >
                 {list.name}
