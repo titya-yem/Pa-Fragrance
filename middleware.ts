@@ -11,8 +11,11 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // If the session does not exist, redirect to the login page
-  if (req.nextUrl.pathname === "/cart") {
+  // Define the protected routes
+  const protectedRoutes = ["/cart", "/profile", "/checkout"];
+
+  // Check if the current path is one of the protected routes
+  if (protectedRoutes.some((route) => req.nextUrl.pathname.startsWith(route))) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
