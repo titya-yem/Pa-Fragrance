@@ -65,12 +65,14 @@ const OrderButtons = () => {
             </div>
             <Link href="/cart/checkout">
               <button className="text-black w-full px-4 py-3 rounded-md bg-[#ffd500]">
-                Checkout
+                Pay
               </button>
             </Link>
           </div>
         ) : (
-          <p className="text-center text-base md:text-lg">Your cart is empty.</p>
+          <p className="text-center text-base md:text-lg">
+            Your cart is empty.
+          </p>
         )}
       </div>
     </>
