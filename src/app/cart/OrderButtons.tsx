@@ -1,69 +1,76 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { useState } from "react";
 import { useCartStore } from "@/stores/CartStore";
+import { SquarePlus, SquareMinus } from "lucide-react";
+import Link from "next/link";
 
 const OrderButtons = () => {
   const { items, totalPrice, removeItem, updateQuantity } = useCartStore();
-  const [isRemoving, setIsRemoving] = useState<boolean>(false);
 
   return (
     <>
-      <div className="flex flex-row justify-between items-center gap-4">
+      {/* devided screen */}
+      <div className="flex flex-col justify-center items-center md:flex-row">
         {items.length > 0 ? (
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4">
             {items.map(({ id, name, price, quantity, img }) => (
               <div
                 key={id}
-                className="flex items-center justify-between border border-[#ffd500] p-4 rounded-md"
+                className="flex items-center justify-between w-[340px] md:w-[500px] border border-[#ffd500] p-2 rounded-md"
               >
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2 md:gap-4">
                   <Image
                     src={img}
                     alt={name}
-                    width={64}
-                    height={64}
-                    className="rounded-md"
+                    className="w-16 md:w-24 rounded-md"
                   />
                   <div>
-                    <h4 className="text-lg font-medium">{name}</h4>
-                    <p className="text-sm">{price}$</p>
+                    <h4 className="text-base md:text-lg font-medium">{name}</h4>
+                    <p className="text-sm md:text-base">{price}$</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
                   <button
-                    onClick={() => updateQuantity(id, quantity - 1)}
-                    disabled={quantity === 1}
-                    className="bg-[#ffd500] px-2 py-1 rounded-md"
+                    onClick={() => {
+                      const newQuantity = quantity - 1;
+                      if (newQuantity === 0) {
+                        removeItem({ id, name, price, quantity, img });
+                      } else {
+                        updateQuantity(id, newQuantity);
+                      }
+                    }}
+                    disabled={quantity === 0}
                   >
-                    -
+                    <SquareMinus color="#ffd500" size={30} />
                   </button>
-                  <span>{quantity}</span>
-                  <button
-                    onClick={() => updateQuantity(id, quantity + 1)}
-                    className="bg-[#ffd500] px-2 py-1 rounded-md"
-                  >
-                    +
+                  <span className="text-base md:text-lg">{quantity}</span>
+                  <button onClick={() => updateQuantity(id, quantity + 1)}>
+                    <SquarePlus color="#ffd500" size={30} />
                   </button>
                   <button
                     onClick={() =>
                       removeItem({ id, name, price, quantity, img })
                     }
-                    className="text-red-500"
+                    className="cta-two rounded-md duration-200 hidden md:block"
                   >
                     Remove
                   </button>
                 </div>
               </div>
             ))}
-            <div className="text-right text-lg font-medium">
-              Total: {totalPrice.toFixed(2)}$
+            <div className="text-right text-lg">
+              Total:{" "}
+              <span className="text-[#ffd500]">{totalPrice.toFixed(2)}$</span>
             </div>
+            <Link href="/cart/checkout">
+              <button className="text-black w-full px-4 py-3 rounded-md bg-[#ffd500]">
+                Checkout
+              </button>
+            </Link>
           </div>
         ) : (
-          <p className="text-center">Your cart is empty.</p>
+          <p className="text-center text-base md:text-lg">Your cart is empty.</p>
         )}
       </div>
     </>
