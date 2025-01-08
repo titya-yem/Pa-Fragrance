@@ -7,10 +7,16 @@ import Link from "next/link";
 import { NavBarLists } from "@/contexts";
 import { useSession, signOut } from "next-auth/react";
 import { IoIosMenu, IoMdClose } from "react-icons/io";
+import { useCartStore } from "@/stores/CartStore";
 
 const Navbar = () => {
   const { data: session } = useSession();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Get the cart item count from Zustand store
+  const cartCount = useCartStore((state) =>
+    state.items.reduce((sum, item) => sum + item.quantity, 0)
+  );
 
   return (
     <header className="container px-4 md:px-8 relative">
@@ -54,6 +60,11 @@ const Navbar = () => {
                 onClick={() => setIsMobileMenuOpen(false)} // Close menu on link click
               >
                 {list.name}
+                {list.name === "Cart" && cartCount > 0 && (
+                  <span className="ml-2 bg-[#ffd500] text-black px-2 py-1 rounded-full text-sm">
+                    {cartCount}
+                  </span>
+                )}
               </Link>
             </li>
           ))}

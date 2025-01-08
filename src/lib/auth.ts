@@ -1,5 +1,5 @@
 import NextAuth, { DefaultSession } from "next-auth";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/Client";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
