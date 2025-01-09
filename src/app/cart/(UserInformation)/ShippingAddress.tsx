@@ -1,25 +1,50 @@
 "use client";
 
 import { FormType } from "@/types/FormType";
-// import axios from "axios";
-import { useState, useRef } from "react";
+import axios from "axios";
+import { useState, useRef, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import toast from "react-hot-toast";
+import { jwtDecode } from "jwt-decode";
 
 const ShippingAddress = () => {
   const [isLoading, setIsLoading] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
+  const [userId, setUserId] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormType>();
 
+  // Extract userId from token in localStorage
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const decodedToken: { id: string } = jwtDecode(token);
+        setUserId(decodedToken.id);
+      } catch (error) {
+        console.error("Failed to decode token:", error);
+      }
+    }
+  }, []);
+
   const onSubmit: SubmitHandler<FormType> = async (data) => {
     try {
-      const userId = localStorage.getItem("userId");
-      console.log(userId, data);
-      // await axios.post("/api/cart", { ...data, userId });
+      if (!userId) {
+        console.error("User ID is missing");
+        return;
+      }
+      const playload = {
+        ...data,
+        userId,
+        zipCode: data.zip,
+        phone: data.phoneNumber,
+      };
+      await axios.post("/api/cart", playload);
       setIsLoading(true);
+      toast.success("Shipping Address Created Successfully");
     } catch (error) {
       console.log(error);
       setIsLoading(false);

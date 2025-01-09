@@ -17,15 +17,15 @@ export const QuestionSchema = z.object({
 });
 
 export const ShippingAddressSchema = z.object({
-  userId: z.string().min(3),
-  firstName: z.string().min(3),
-  lastName: z.string().min(3),
-  address1: z.string().min(3),
+  firstName: z.string().min(1, "First Name is required"),
+  lastName: z.string().min(1, "Last Name is required"),
+  address1: z.string().min(1, "Address Line 1 is required"),
   address2: z.string().optional(),
-  country: z.enum(["United States", "Canada", "Cambodia"]),
-  state: z.string().min(3),
-  zipCode: z.string().min(3),
-  phone: z.string().min(3),
+  country: z.string().min(1, "Country is required"),
+  state: z.string().min(1, "State is required"),
+  zipCode: z.string().min(1, "Zip Code is required"),
+  phone: z.string().min(1, "Phone Number is required"),
+  userId: z.string().min(1, "User ID is required"),
 });
 
 export type LoginSchemaType = z.infer<typeof LoginSchema>;

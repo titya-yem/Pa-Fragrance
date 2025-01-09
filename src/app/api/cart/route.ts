@@ -8,8 +8,13 @@ export async function POST(req: NextRequest) {
 
   // Check if validation is successful
   if (!validation.success) {
+    console.error("Validation errors:", validation.error.format());
     return NextResponse.json(
-      { success: false, error: "Invalid input" },
+      {
+        success: false,
+        error: "Invalid input",
+        details: validation.error.format(),
+      },
       { status: 400 }
     );
   }
