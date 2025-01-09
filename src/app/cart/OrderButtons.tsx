@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { useCartStore } from "@/stores/CartStore";
 import { SquarePlus, SquareMinus } from "lucide-react";
-import Link from "next/link";
 
 const OrderButtons = () => {
   const { items, totalPrice, removeItem, updateQuantity } = useCartStore();
@@ -63,11 +62,6 @@ const OrderButtons = () => {
               Total:{" "}
               <span className="text-[#ffd500]">{totalPrice.toFixed(2)}$</span>
             </div>
-            <Link href="/cart/checkout">
-              <button className="text-black w-full px-4 py-3 rounded-md bg-[#ffd500]">
-                Pay
-              </button>
-            </Link>
           </div>
         ) : (
           <p className="text-center text-base md:text-lg">
