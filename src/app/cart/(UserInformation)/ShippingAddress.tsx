@@ -1,22 +1,35 @@
 "use client";
 
 import { FormType } from "@/types/FormType";
+// import axios from "axios";
+import { useState, useRef } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 const ShippingAddress = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormType>();
 
-  const onSubmit: SubmitHandler<FormType> = (data) => {
-    console.log("Shipping Address", data);
+  const onSubmit: SubmitHandler<FormType> = async (data) => {
+    try {
+      const userId = localStorage.getItem("userId");
+      console.log(userId, data);
+      // await axios.post("/api/cart", { ...data, userId });
+      setIsLoading(true);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
   };
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
+      ref={formRef}
       className="max-w-md mx-auto bg-gray-700"
     >
       {/* First Name and Last Name */}
@@ -61,6 +74,7 @@ const ShippingAddress = () => {
         </label>
         <input
           type="text"
+          placeholder="Full Address"
           {...register("address1", {
             required: "Address Line 1 is required",
           })}
@@ -80,6 +94,7 @@ const ShippingAddress = () => {
         </label>
         <input
           type="text"
+          placeholder="Full Address"
           {...register("address2")}
           className="w-full border p-2 rounded-sm border-gray-300 bg-gray-700"
         />
@@ -127,7 +142,7 @@ const ShippingAddress = () => {
       <div className="grid grid-cols-2 gap-4 mt-4 bg-gray-700">
         <div className="bg-gray-700">
           <label className="block text-sm mb-1 font-medium text-[#ffd500] bg-gray-700">
-            State*
+            State or Province*
           </label>
           <input
             type="text"
@@ -145,7 +160,7 @@ const ShippingAddress = () => {
 
         <div className="bg-gray-700">
           <label className="block text-sm mb-1 font-medium text-[#ffd500] bg-gray-700">
-            Zip*
+            Zip Code*
           </label>
           <input
             type="text"
@@ -167,6 +182,7 @@ const ShippingAddress = () => {
         </label>
         <input
           type="text"
+          placeholder="In case we need to contact you."
           {...register("phoneNumber", { required: "Phone Number is required" })}
           className={`w-full border p-2 rounded-sm bg-gray-700 ${
             errors.phoneNumber ? "border-red-500" : "border-gray-300"
@@ -180,6 +196,7 @@ const ShippingAddress = () => {
       {/* Pay Now */}
       <button
         type="submit"
+        disabled={isLoading}
         className="text-black w-full px-4 py-3 rounded-md bg-[#ffd500] mt-6"
       >
         Pay Now
