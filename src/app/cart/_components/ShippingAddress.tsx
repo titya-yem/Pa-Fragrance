@@ -6,6 +6,7 @@ import { useState, useRef, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
 import { jwtDecode } from "jwt-decode";
+import { useRouter } from "next/navigation";
 
 const ShippingAddress = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,6 +17,7 @@ const ShippingAddress = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormType>();
+  const router = useRouter();
 
   // Extract userId from token in localStorage
   useEffect(() => {
@@ -44,6 +46,7 @@ const ShippingAddress = () => {
       };
       await axios.post("/api/cart", playload);
       setIsLoading(true);
+      router.push("/cart/payment");
       toast.success("Shipping Address Created Successfully");
     } catch (error) {
       console.log(error);

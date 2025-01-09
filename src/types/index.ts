@@ -44,3 +44,10 @@ export interface SignupFormData {
   email: string;
   password: string;
 }
+
+export type CardPaymentFormData = {
+  cardNumber: string;
+  nameOnCard: string;
+  expiryDate: string;
+  securityCode: string;
+};

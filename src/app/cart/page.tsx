@@ -1,7 +1,7 @@
 "use client";
 
-import OrderButtons from "./(UserInformation)/OrderButtons";
-import UserInformation from "./(UserInformation)/UserInformation";
+import OrderButtons from "./_components/OrderButtons";
+import UserInformation from "./_components/UserInformation";
 import { useCartStore } from "@/stores/CartStore";
 
 const Cart = () => {
