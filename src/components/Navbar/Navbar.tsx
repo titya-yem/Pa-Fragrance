@@ -18,6 +18,15 @@ const Navbar = () => {
     state.items.reduce((sum, item) => sum + item.quantity, 0)
   );
 
+  console.log(session?.user?.role);
+
+  const filteredNavBarLists = NavBarLists.filter((list) => {
+    if (list.name === "Admin") {
+      return session?.user?.role?.toLowerCase() === "admin"; // Case insensitive comparison
+    }
+    return true;
+  });
+
   return (
     <header className="container px-4 md:px-8 relative">
       <nav className="flex justify-between items-center py-4">
@@ -52,7 +61,7 @@ const Navbar = () => {
               : "translate-x-full md:translate-x-0"
           }`}
         >
-          {NavBarLists.map((list) => (
+          {filteredNavBarLists.map((list) => (
             <li key={list.name} className="flex items-center">
               <Link
                 href={list.href}
