@@ -24,7 +24,8 @@ const ShippingAddress = () => {
     const token = localStorage.getItem("token");
     if (token) {
       try {
-        const decodedToken: { id: string } = jwtDecode(token);
+        const decodedToken: { id: string; email: string; name: string } =
+          jwtDecode(token);
         setUserId(decodedToken.id);
       } catch (error) {
         console.error("Failed to decode token:", error);
@@ -33,23 +34,27 @@ const ShippingAddress = () => {
   }, []);
 
   const onSubmit: SubmitHandler<FormType> = async (data) => {
+    setIsLoading(true);
     try {
       if (!userId) {
-        console.error("User ID is missing");
+        toast.error("User not authenticated. Please log in.");
         return;
       }
-      const playload = {
+      const payload = {
         ...data,
         userId,
+        email: data.email,
         zipCode: data.zip,
         phone: data.phoneNumber,
       };
-      await axios.post("/api/cart", playload);
-      setIsLoading(true);
-      router.push("/cart/payment");
+      await axios.post("/api/cart", payload);
       toast.success("Shipping Address Created Successfully");
+      formRef.current?.reset(); // Reset the form
+      router.push("/cart/payment");
     } catch (error) {
-      console.log(error);
+      console.error("Error submitting form:", error);
+      toast.error("Failed to create shipping address. Please try again.");
+    } finally {
       setIsLoading(false);
     }
   };
@@ -58,12 +63,12 @@ const ShippingAddress = () => {
     <form
       onSubmit={handleSubmit(onSubmit)}
       ref={formRef}
-      className="max-w-md mx-auto bg-gray-700"
+      className="max-w-md mx-auto bg-gray-700 p-6 rounded-md shadow-md"
     >
       {/* First Name and Last Name */}
-      <div className="grid grid-cols-2 gap-4 bg-gray-700">
-        <div className="bg-gray-700">
-          <label className="block text-sm mb-1 font-medium text-[#ffd500] bg-gray-700">
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm mb-1 font-medium text-[#ffd500]">
             First Name*
           </label>
           <input
@@ -78,8 +83,8 @@ const ShippingAddress = () => {
           )}
         </div>
 
-        <div className="bg-gray-700">
-          <label className="block text-sm mb-1 font-medium text-[#ffd500] bg-gray-700">
+        <div>
+          <label className="block text-sm mb-1 font-medium text-[#ffd500]">
             Last Name*
           </label>
           <input
@@ -95,17 +100,31 @@ const ShippingAddress = () => {
         </div>
       </div>
 
+      {/* Email */}
+      <div className="mt-4">
+        <label className="block text-sm mb-1 font-medium text-[#ffd500]">
+          Email Address*
+        </label>
+        <input
+          type="email"
+          {...register("email", { required: "Email is required" })}
+          className={`w-full border p-2 rounded-sm bg-gray-700 ${
+            errors.email ? "border-red-500" : "border-gray-300"
+          }`}
+        />
+        {errors.email && (
+          <p className="text-red-500 text-sm">{errors.email.message}</p>
+        )}
+      </div>
+
       {/* Address Line 1 */}
-      <div className="mt-4 bg-gray-700">
-        <label className="block text-sm mb-1 font-medium text-[#ffd500] bg-gray-700">
+      <div className="mt-4">
+        <label className="block text-sm mb-1 font-medium text-[#ffd500]">
           Address Line 1*
         </label>
         <input
           type="text"
-          placeholder="Full Address"
-          {...register("address1", {
-            required: "Address Line 1 is required",
-          })}
+          {...register("address1", { required: "Address Line 1 is required" })}
           className={`w-full border p-2 rounded-sm bg-gray-700 ${
             errors.address1 ? "border-red-500" : "border-gray-300"
           }`}
@@ -115,28 +134,15 @@ const ShippingAddress = () => {
         )}
       </div>
 
-      {/* Address Line 2 */}
-      <div className="mt-4 bg-gray-700">
-        <label className="block text-sm mb-1 font-medium text-[#ffd500] bg-gray-700">
-          Address Line 2
-        </label>
-        <input
-          type="text"
-          placeholder="Full Address"
-          {...register("address2")}
-          className="w-full border p-2 rounded-sm border-gray-300 bg-gray-700"
-        />
-      </div>
-
-      {/* Country, City, State, Zip */}
-      <div className="grid grid-cols-2 gap-4 mt-4 bg-gray-700">
-        <div className="bg-gray-700">
-          <label className="block text-sm mb-1 font-medium text-[#ffd500] bg-gray-700">
+      {/* Country, City, State */}
+      <div className="grid grid-cols-3 gap-4 mt-4">
+        <div>
+          <label className="block text-sm mb-1 font-medium text-[#ffd500]">
             Country*
           </label>
           <select
             {...register("country", { required: "Country is required" })}
-            className={`w-full border p-2 rounded-sm hover:bg-[#ffd500] hover:text-black duration-200 bg-gray-700 ${
+            className={`w-full border p-2 rounded-sm bg-gray-700 ${
               errors.country ? "border-red-500" : "border-gray-300"
             }`}
           >
@@ -149,13 +155,13 @@ const ShippingAddress = () => {
           )}
         </div>
 
-        <div className="bg-gray-700">
-          <label className="block text-sm mb-1 font-medium text-[#ffd500] bg-gray-700">
-            City Or Town*
+        <div>
+          <label className="block text-sm mb-1 font-medium text-[#ffd500]">
+            City*
           </label>
           <input
             type="text"
-            {...register("city", { required: "City or Town is required" })}
+            {...register("city", { required: "City is required" })}
             className={`w-full border p-2 rounded-sm bg-gray-700 ${
               errors.city ? "border-red-500" : "border-gray-300"
             }`}
@@ -164,19 +170,14 @@ const ShippingAddress = () => {
             <p className="text-red-500 text-sm">{errors.city.message}</p>
           )}
         </div>
-      </div>
 
-      {/* State and Zip */}
-      <div className="grid grid-cols-2 gap-4 mt-4 bg-gray-700">
-        <div className="bg-gray-700">
-          <label className="block text-sm mb-1 font-medium text-[#ffd500] bg-gray-700">
-            State or Province*
+        <div>
+          <label className="block text-sm mb-1 font-medium text-[#ffd500]">
+            State*
           </label>
           <input
             type="text"
-            {...register("state", {
-              required: "State or Province is required",
-            })}
+            {...register("state", { required: "State is required" })}
             className={`w-full border p-2 rounded-sm bg-gray-700 ${
               errors.state ? "border-red-500" : "border-gray-300"
             }`}
@@ -185,32 +186,15 @@ const ShippingAddress = () => {
             <p className="text-red-500 text-sm">{errors.state.message}</p>
           )}
         </div>
-
-        <div className="bg-gray-700">
-          <label className="block text-sm mb-1 font-medium text-[#ffd500] bg-gray-700">
-            Zip Code*
-          </label>
-          <input
-            type="text"
-            {...register("zip", { required: "Zip is required" })}
-            className={`w-full border p-2 rounded-sm bg-gray-700 ${
-              errors.zip ? "border-red-500" : "border-gray-300"
-            }`}
-          />
-          {errors.zip && (
-            <p className="text-red-500 text-sm">{errors.zip.message}</p>
-          )}
-        </div>
       </div>
 
       {/* Phone Number */}
-      <div className="mt-4 bg-gray-700">
-        <label className="block text-sm mb-1 font-medium text-[#ffd500] bg-gray-700">
+      <div className="mt-4">
+        <label className="block text-sm mb-1 font-medium text-[#ffd500]">
           Phone Number*
         </label>
         <input
           type="text"
-          placeholder="In case we need to contact you."
           {...register("phoneNumber", { required: "Phone Number is required" })}
           className={`w-full border p-2 rounded-sm bg-gray-700 ${
             errors.phoneNumber ? "border-red-500" : "border-gray-300"
@@ -221,13 +205,13 @@ const ShippingAddress = () => {
         )}
       </div>
 
-      {/* Pay Now */}
+      {/* Submit Button */}
       <button
         type="submit"
         disabled={isLoading}
-        className="text-black w-full px-4 py-3 rounded-md bg-[#ffd500] mt-6"
+        className="w-full bg-[#ffd500] text-black px-4 py-3 rounded-md mt-6"
       >
-        Pay Now
+        {isLoading ? "Processing..." : "Save and Continue"}
       </button>
     </form>
   );

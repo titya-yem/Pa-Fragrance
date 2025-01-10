@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar/Navbar";
 import { SessionProvider } from "next-auth/react";
+// import { Elements } from "@stripe/react-stripe-js";
+// import { loadStripe } from "@stripe/stripe-js";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -13,13 +15,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // const stripePromise = loadStripe(process.env.STRIPE_PUBLISH_KEY || "");
+
   return (
     <html lang="en">
       <SessionProvider>
+        {/* <Elements stripe={stripePromise}> */}
         <body className={`antialiased`}>
           <Navbar />
           {children}
         </body>
+        {/* </Elements> */}
       </SessionProvider>
     </html>
   );

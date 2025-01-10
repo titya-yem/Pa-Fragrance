@@ -7,7 +7,8 @@ import { CartItem } from "@/types/Store/CartStoreType";
 import { useCartStore } from "@/stores/CartStore";
 
 const shop = () => {
-  const addToCart = useCartStore((state) => state.addToCart);
+  // eslint-disable-next-line react-hooks/rules-of-hooks, @typescript-eslint/no-explicit-any
+  const addToCart = useCartStore((state: any) => state.addToCart);
 
   const handleAddToCart = (product: CartItem) => {
     addToCart(product); // Directly call the addToCart function

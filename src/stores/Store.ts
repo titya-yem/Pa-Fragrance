@@ -13,5 +13,6 @@ export const Quantity = create<Quantity>((set) => ({
     set((state: Quantity) => ({ quantity: state.quantity + order })),
   decrement: (order) =>
     set((state: Quantity) => ({ quantity: state.quantity - order })),
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   remove: (order) => set((state: Quantity) => ({ quantity: 0 })),
 }));

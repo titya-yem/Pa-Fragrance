@@ -5,7 +5,7 @@ import Image from "next/image";
 import { SubmitHandler, useForm } from "react-hook-form";
 import paWord from "../../../../public/Pa Word.png";
 import cardLogo from "../../../../public/Card Logo.jpg";
-// import axios from "axios";
+import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
@@ -20,7 +20,7 @@ const CardPayment: React.FC = () => {
   const onSubmit: SubmitHandler<CardPaymentFormData> = async (data) => {
     try {
       console.log(data);
-      // await axios.post("/api/cart/payment", data);
+      await axios.post("/api/cart/payment", data);
       toast.success("Payment successful, You will receive an email shortly.");
       router.push("/");
     } catch (error) {
