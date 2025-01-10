@@ -51,3 +51,9 @@ export type CardPaymentFormData = {
   expiryDate: string;
   securityCode: string;
 };
+
+export interface DashboardList {
+  icon: ReactNode;
+  name: string;
+  href: string;
+}

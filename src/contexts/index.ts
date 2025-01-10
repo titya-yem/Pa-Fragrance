@@ -16,7 +16,7 @@ export const NavBarLists: NavBarList[] = [
   },
   {
     name: "Admin",
-    href: "/admin/dashboard",
+    href: "/admin",
   },
 ];
 
