@@ -4,11 +4,8 @@ import Footer from "@/components/root/Footer";
 import AboutUs from "@/components/root/AboutUs";
 import Product from "@/components/root/Product";
 import Founder from "@/components/root/Founder";
-import ElementsProvider from "@/components/ElementsProvider";
 
 export default function Home() {
-  // Example total amount; replace with dynamic value as needed
-
   return (
     <>
       <main className="container md:flex justify-between bg-black">
@@ -38,7 +35,6 @@ export default function Home() {
         <AboutUs />
         <Product />
         <Founder />
-        <ElementsProvider amount={100} />
       </section>
 
       <footer>

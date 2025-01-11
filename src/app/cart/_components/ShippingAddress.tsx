@@ -49,7 +49,7 @@ const ShippingAddress = () => {
       };
       await axios.post("/api/cart", payload);
       toast.success("Shipping Address Created Successfully");
-      formRef.current?.reset(); // Reset the form
+      formRef.current?.reset();
       router.push("/cart/payment");
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -66,9 +66,9 @@ const ShippingAddress = () => {
       className="max-w-md mx-auto bg-gray-700 p-6 rounded-md shadow-md"
     >
       {/* First Name and Last Name */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-4 bg-gray-700">
         <div>
-          <label className="block text-sm mb-1 font-medium text-[#ffd500]">
+          <label className="block text-sm pb-1 font-medium text-[#ffd500] bg-gray-700">
             First Name*
           </label>
           <input
@@ -84,7 +84,7 @@ const ShippingAddress = () => {
         </div>
 
         <div>
-          <label className="block text-sm mb-1 font-medium text-[#ffd500]">
+          <label className="block text-sm pb-1 font-medium text-[#ffd500] bg-gray-700">
             Last Name*
           </label>
           <input
@@ -101,8 +101,8 @@ const ShippingAddress = () => {
       </div>
 
       {/* Email */}
-      <div className="mt-4">
-        <label className="block text-sm mb-1 font-medium text-[#ffd500]">
+      <div className="mt-4 bg-gray-700">
+        <label className="block text-sm pb-1 font-medium text-[#ffd500] bg-gray-700">
           Email Address*
         </label>
         <input
@@ -118,8 +118,8 @@ const ShippingAddress = () => {
       </div>
 
       {/* Address Line 1 */}
-      <div className="mt-4">
-        <label className="block text-sm mb-1 font-medium text-[#ffd500]">
+      <div className="mt-4 bg-gray-700">
+        <label className="block text-sm pb-1 font-medium text-[#ffd500] bg-gray-700">
           Address Line 1*
         </label>
         <input
@@ -134,10 +134,27 @@ const ShippingAddress = () => {
         )}
       </div>
 
+      {/* Address Line 2 */}
+      <div className="mt-4 bg-gray-700">
+        <label className="block text-sm pb-1 font-medium text-[#ffd500] bg-gray-700">
+          Address Line 2* (Optional)
+        </label>
+        <input
+          type="text"
+          {...register("address2", { required: "Address Line 2 is required" })}
+          className={`w-full border p-2 rounded-sm bg-gray-700 ${
+            errors.address1 ? "border-red-500" : "border-gray-300"
+          }`}
+        />
+        {errors.address1 && (
+          <p className="text-red-500 text-sm">{errors.address1.message}</p>
+        )}
+      </div>
+
       {/* Country, City, State */}
-      <div className="grid grid-cols-3 gap-4 mt-4">
+      <div className="grid grid-cols-2 gap-4 mt-4 bg-gray-700">
         <div>
-          <label className="block text-sm mb-1 font-medium text-[#ffd500]">
+          <label className="block text-sm pb-1 font-medium text-[#ffd500] bg-gray-700">
             Country*
           </label>
           <select
@@ -156,7 +173,7 @@ const ShippingAddress = () => {
         </div>
 
         <div>
-          <label className="block text-sm mb-1 font-medium text-[#ffd500]">
+          <label className="block text-sm pb-1 font-medium text-[#ffd500] bg-gray-700">
             City*
           </label>
           <input
@@ -170,9 +187,11 @@ const ShippingAddress = () => {
             <p className="text-red-500 text-sm">{errors.city.message}</p>
           )}
         </div>
+      </div>
 
+      <div className="grid grid-cols-2 gap-4 mt-4 bg-gray-700">
         <div>
-          <label className="block text-sm mb-1 font-medium text-[#ffd500]">
+          <label className="block text-sm pb-1 font-medium text-[#ffd500] bg-gray-700">
             State*
           </label>
           <input
@@ -186,11 +205,27 @@ const ShippingAddress = () => {
             <p className="text-red-500 text-sm">{errors.state.message}</p>
           )}
         </div>
+
+        <div>
+          <label className="block text-sm pb-1 font-medium text-[#ffd500] bg-gray-700">
+            Zip Code*
+          </label>
+          <input
+            type="text"
+            {...register("zip", { required: "Zip Code is required" })}
+            className={`w-full border p-2 rounded-sm bg-gray-700 ${
+              errors.zip ? "border-red-500" : "border-gray-300"
+            }`}
+          />
+          {errors.zip && (
+            <p className="text-red-500 text-sm">{errors.zip.message}</p>
+          )}
+        </div>
       </div>
 
       {/* Phone Number */}
-      <div className="mt-4">
-        <label className="block text-sm mb-1 font-medium text-[#ffd500]">
+      <div className="mt-4 bg-gray-700">
+        <label className="block text-sm pb-1 font-medium text-[#ffd500] bg-gray-700">
           Phone Number*
         </label>
         <input

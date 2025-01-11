@@ -57,3 +57,11 @@ export interface DashboardList {
   name: string;
   href: string;
 }
+
+export interface CartItem {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  img: string;
+}
