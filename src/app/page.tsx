@@ -1,20 +1,13 @@
-"use client";
-
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import SplineBox from "@/components/root/SpineBox";
 import Footer from "@/components/root/Footer";
 import AboutUs from "@/components/root/AboutUs";
 import Product from "@/components/root/Product";
 import Founder from "@/components/root/Founder";
-
-// Dynamically import CheckoutWrapper
-const CheckoutWrapper = dynamic(() => import("@/components/ElementsProvider"), {
-  ssr: false, // Disable server-side rendering for this component
-});
+import ElementsProvider from "@/components/ElementsProvider";
 
 export default function Home() {
-  const totalAmount = 100; // Example total amount; replace with dynamic value as needed
+  // Example total amount; replace with dynamic value as needed
 
   return (
     <>
@@ -45,14 +38,7 @@ export default function Home() {
         <AboutUs />
         <Product />
         <Founder />
-      </section>
-
-      {/* Optional: Add a payment section if needed on the home page */}
-      <section className="container mt-10">
-        <h2 className="text-white text-2xl font-bold text-center mb-6">
-          Make a Payment
-        </h2>
-        <CheckoutWrapper amount={totalAmount} />
+        <ElementsProvider amount={100} />
       </section>
 
       <footer>

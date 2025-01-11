@@ -5,6 +5,12 @@ import OrderButtons from "./_components/OrderButtons";
 import UserInformation from "./_components/UserInformation";
 import CheckoutForm from "@/components/CheckoutForm";
 import { useCartStore } from "@/stores/CartStore";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISH_KEY || ""
+);
 
 const Cart = () => {
   const { items } = useCartStore() as { items: CartItem[] };
@@ -32,7 +38,6 @@ const Cart = () => {
         Cart
       </h1>
       <div className="flex flex-col justify-between lg:flex-row">
-        {/* Render existing components */}
         <OrderButtons />
         <UserInformation />
       </div>
@@ -51,8 +56,10 @@ const Cart = () => {
           <span>${totalAmount.toFixed(2)}</span>
         </div>
 
-        {/* Integrate CheckoutForm and pass totalAmount */}
-        <CheckoutForm amount={totalAmount} />
+        {/* Wrap CheckoutForm in Elements provider */}
+        <Elements stripe={stripePromise}>
+          <CheckoutForm amount={totalAmount} />
+        </Elements>
       </div>
     </main>
   );
