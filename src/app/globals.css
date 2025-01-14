@@ -2,26 +2,97 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+h1,
+h2,
+h3,
+h4,
+h5,
+li {
+  color: #fed42d;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+.container {
+  max-width: 1540px;
+  padding: 20px;
+  margin: 0 auto;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+p {
+  color: #dfdfdf;
+}
+
+.cta {
+  color: #ffd500;
+  font-weight: 600;
+  font-style: italic;
+  border: 1px solid #ffd500;
+  border-radius: 16px;
+}
+
+.cta:hover {
+  color: black;
+  background-color: #ffd500;
+}
+
+.nav:hover {
+  color: #ffe24f;
+  text-decoration: underline;
+  text-underline-offset: 6px;
+}
+
+.cta-two {
+  padding: 1rem;
+  font-size: 1rem;
+  color: black;
+  font-style: italic;
+  font-weight: 500;
+  background-color: #ffd500;
+}
+
+.cta-two:hover {
+  border: 1px solid;
+  background-color: transparent;
+  color: #ffd500;
+}
+
+.price {
+  color: black;
+  font-weight: 500;
+  padding: 4px 16px;
+  background-color: #ffd500;
+  border-radius: 2px;
+}
+
+.bg-rgb {
+  background: linear-gradient(to right, #ededed, #f3f3f3);
+}
+
+.spline {
+  position: relative;
+  scale: 70%;
+  bottom: 70px;
+}
+
+@media screen and (min-width: 768px) {
+  .spline {
+    scale: 75%;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@media screen and (min-width: 1024px) {
+  .spline {
+    scale: 85%;
+  }
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+@media screen and (min-width: 1439px) {
+  .spline {
+    padding-left: 200px;
   }
 }
