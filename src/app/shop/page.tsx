@@ -15,7 +15,7 @@ const shop = () => {
   };
 
   return (
-    <main className="container">
+    <main className="container bg-black">
       <h1 className="text-3xl md:text-4xl lg:text-5xl font-medium italic text-center mb-10">
         Our Products
       </h1>
